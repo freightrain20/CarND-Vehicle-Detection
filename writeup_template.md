@@ -15,9 +15,9 @@ The goals / steps of this project are the following:
 * Estimate a bounding box for vehicles detected.
 
 [//]: # (Image References)
-[image1]: ./examples/car_not_car.png
-[image2]: ./examples/HOG_example.jpg
-[image3]: ./examples/sliding_windows.jpg
+[image1]: ./output_images/test1_sliding.jpg
+[image2]: ./output_images/test3_sliding.jpg
+[image3]: ./output_images/test6_sliding.jpg
 [image4]: ./examples/sliding_window.jpg
 [image5]: ./examples/bboxes_and_heat.png
 [image6]: ./examples/labels_map.png
@@ -80,7 +80,6 @@ As discussed before, I ended up with a linear SVM utilizing a color histogram an
 ![alt text][image1]
 ![alt text][image2]
 ![alt text][image3]
-![alt text][image4]
 ---
 
 ### Video Implementation
