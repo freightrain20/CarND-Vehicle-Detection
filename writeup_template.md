@@ -28,21 +28,34 @@ The goals / steps of this project are the following:
 ###Here I will consider the rubric points individually and describe how I addressed each point in my implementation. Please refer to the submitted IPython notbook titled "Video Pipeline-Submission" for any references to code.  
 
 ---
-###Histogram of Oriented Gradients (HOG)
+###Histogram of Oriented Gradients (HOG) & Color Histograms
 
 ####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-I extracted HOG features from the training images using the function "get_hog_features" in the IPython notebook (2nd cell). This function is called via the "extract_features" when training a classifier and the "search_windows" function when classifying a candidate image.  I found that the parameters in the table below did a reasonable job of correctly classifying features when combined with a color histogram. 
+I chose to use HOG and color histograms to construct a feature for my classifier. I will describe both processes below.
 
-| Parameter     | Value |
-|---------------|-------|
-|orientation    |9      |
-|pixels per cel |8      |
-|cells per block|2      |
-|color space    |YCrCb  |
-|color channels |All    |
+I extracted HOG features from the training images (and later from the project images) using the function "get_hog_features" in the IPython notebook (2nd cell). This function is called via the "extract_features" (5th cell) when training a classifier and the "search_windows" (9th cell) function when classifying a candidate image.  I found that the parameters in the table below did a reasonable job of correctly classifying features when combined with a color histogram. 
 
-The orientation parameter defines the number of bins that the orientation gradient can be split in to. For example, with 9 orientations each bin will represent a 40&deg; range. The pixels per cell parameter defines the size of the cell, which in my case is 8 x 8. The cells per block parameter defines the number of cells over which a value will be averaged, which is essentially a filter to smooth the result. I chose to average over a 2 x 2 block of cells. This is done using the YCrCb color space on each channel within the image.
+|Parameter      |Value|
+|---------------|-----|
+|orientation    |9    |
+|pixels per cel |8    |
+|cells per block|2    |
+|color space    |YCrCb|
+|color channels |All  |
+
+The orientation parameter defines the number of bins in which the orientation gradient can be split. For example, with 9 orientations each bin will represent a 40&deg; range. The pixels per cell parameter defines the size of the cell, which in my case is 8 x 8. The cells per block parameter defines the number of cells over which a value will be averaged, which is essentially a filter to smooth the result. I chose to average over a 2 x 2 block of cells. This is done using the YCrCb color space on each channel within the image.
+
+I extracted the color histogram features from the training images (and later from the project images) using the function "color_hist" in the (6th cell) of the IPython notebook. This function is called via the "extract_features" (5th cell) when training a classifier and the "search_windows" (9th cell) function when classifying a candidate image. I chose to reduce the size of the image to 32 x 32 pixels in order to reduce the overhead needed to process the images. I also chose to use 32 histogram bins in the final implementation.
+
+|Parameter      |Value|
+|---------------|-----|
+|spatial binning|32   |
+|histogram bins |32   |
+
+The final feature vector was created by appending the HOG and color histogram features together.
+
+
 
 The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
 
@@ -57,11 +70,14 @@ Here is an example using the `YCrCb` color space and HOG parameters of `orientat
 
 ![alt text][image2]
 
-####2. Explain how you settled on your final choice of HOG parameters.
+####2. Explain how you settled on your final choice of HOG and color histogram parameters.
 
-I tried various combinations of parameters and...
+I settled on my final choice for HOG and color histogram parameters via experimentation (brute force...). In order to do this I would define a set of parameters, train my linear SVM, note the test accuracy and visually inspect the result on a test image, and repeat. Since the end result of this project relies on a heat map to aggregate multiple detections, I felt that a visual inspection of a test image was a better way to judge accuracy than the test accuracy. However, the test accuracy acts as a good guideline.
 
-####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
+The video lecutres mentioned that research papers had found little information gain 
+
+####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG and color histogramfeatures.
+
 
 I trained a linear SVM using...
 
