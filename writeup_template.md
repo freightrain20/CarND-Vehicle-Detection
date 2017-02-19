@@ -100,9 +100,6 @@ Next, I apply a threshold to the heatmap to reduce false positives. Any pixel in
 Finally, I draw a bounding bow around the extent of each blob that remains in the heatmap. If all goes well, these boxes will match the vehicles in the frame.
 
 ###Here's a few example heatmaps and their corresponding bounding boxes:
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
-
-### Here are six frames and their corresponding heatmaps:
 
 ![alt text][image5]
 ![alt text][image6]
