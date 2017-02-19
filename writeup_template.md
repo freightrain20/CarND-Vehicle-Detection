@@ -74,12 +74,9 @@ Here is an example using the `YCrCb` color space and HOG parameters of `orientat
 
 I settled on my final choice for HOG and color histogram parameters via experimentation (brute force...). In order to do this I would define a set of parameters, train my linear SVM, note the test accuracy and visually inspect the result on a test image, and repeat. Since the end result of this project relies on a heat map to aggregate multiple detections, I felt that a visual inspection of a test image was a better way to judge accuracy than the test accuracy. However, the test accuracy acts as a good guideline.
 
-The video lecutres mentioned that research papers had found little information gain 
-
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG and color histogramfeatures.
 
-
-I trained a linear SVM using...
+The code block that I used to train my linear SVM is in (cell 14) of the IPython notebook. I began by loading the vehicle and non-vehicel images provided and running them through my "extract_features" function (cell 5) to create a feature vector for each image. I then scaled the images to prevent one portion of the feature (HOG or color histogram) from overpowering the other when classifying. Next, I split the data into 90% training and 10% test data. I chose to use a larger portion of the dataset for training because the ultimate goal of the project is to generate a heat map based upon multiple detections, which I felt was better represented by visual inspection than through test data scores. I then finally trained my classifier. I experimented with nonlinear and linear SVMs and like the accuracy/performance of the linear SVM the most.
 
 ###Sliding Window Search
 
