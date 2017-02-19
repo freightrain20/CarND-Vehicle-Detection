@@ -55,21 +55,6 @@ I extracted the color histogram features from the training images (and later fro
 
 The final feature vector was created by appending the HOG and color histogram features together.
 
-
-
-The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
-
-I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
-
-![alt text][image1]
-
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
-
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
-
-
-![alt text][image2]
-
 ####2. Explain how you settled on your final choice of HOG and color histogram parameters.
 
 I settled on my final choice for HOG and color histogram parameters via experimentation (brute force...). In order to do this I would define a set of parameters, train my linear SVM, note the test accuracy and visually inspect the result on a test image, and repeat. Since the end result of this project relies on a heat map to aggregate multiple detections, I felt that a visual inspection of a test image was a better way to judge accuracy than the test accuracy. However, the test accuracy acts as a good guideline.
@@ -82,14 +67,19 @@ The code block that I used to train my linear SVM is in (cell 14) of the IPython
 
 ####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+I implemented my sliding window search in (cell 6) of the IPython notebook.
 
-![alt text][image3]
+I chose to bound my search so that it started 300 pixels from the top of the image, which roughly corresponds with the horizion plus some buffer. By focusing on the region of the image that contained the road, this reduced false positives and improved the speed of the algorithm. I also chose to use five sizes of windows: 48, 96, 144, 196, and 250 pixels. Finally, I used an overlap of 75%, meaning that each window will overlap the previous in the x and y direction by 75%.
 
 ####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+As discussed before, I ended up with a linear SVM utilizing a color histogram and 3 channel YCrCb HOG to build the feature vecotr. I relied on the ability of the classifier to find multiple hits on a vehicle and relied heavily on the heat map as a filter to identify the final shape. I think my classifier could be improved by fine tuning the classifier to better identify a vehicle and reducing my reliance on the heat map. 
 
+Here are some examples:
+
+![alt text][image1]
+![alt text][image2]
+![alt text][image3]
 ![alt text][image4]
 ---
 
@@ -123,5 +113,14 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
+To be completely honest, I think there is lots of room for improvement in this project. In the interest of time, I wasn't able to explore the different classifiers presented in the lecture as much as I would have liked to. My pipeline does a solid job of identifying large vehicles, but also has too many false positives in shadows and trees. In addition, I think I could improve performance by expanding my training dataset.
+
+First, I would like to do a deeper study of the classifiers and parameters. I think my classifier has too many false positives and relies too heavily on post processing to narrow down the results.
+
+Second, I would like to modify my sliding window search. I can adjust the search space to reflect the fact that the road narrows at the horizion, and can scale the size of the sliding window to match the perceived size of the vehicles as they approach the horizion. This should help reduce false positives and improve execution time.
+
+Finally, as mentioned earlier I would like to reduce the influence of the heat map in the algorith,
+
+Once all of these steps are complete, I would also like to explore using other methods to classify the images.
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
 
