@@ -18,11 +18,13 @@ The goals / steps of this project are the following:
 [image1]: ./output_images/test1_sliding.jpg
 [image2]: ./output_images/test3_sliding.jpg
 [image3]: ./output_images/test6_sliding.jpg
-[image4]: ./examples/sliding_window.jpg
-[image5]: ./examples/bboxes_and_heat.png
-[image6]: ./examples/labels_map.png
-[image7]: ./examples/output_bboxes.png
-[video1]: ./project_video.mp4
+[image4]: ./output_images/test1_heatmap.jpg
+[image5]: ./output_images/test1_final.jpg
+[image6]: ./output_images/test3_heatmap.jpg
+[image7]: ./output_images/test3_final.jpg
+[image8]: ./output_images/test6_heatmap.jpg
+[image9]: ./output_images/test6_final.jpg
+[video1]: ./output_images/project_video_labeled.mp4
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
 ###Here I will consider the rubric points individually and describe how I addressed each point in my implementation. Please refer to the submitted IPython notbook titled "Video Pipeline-Submission" for any references to code.  
@@ -100,11 +102,15 @@ Finally, I draw a bounding bow around the extent of each blob that remains in th
 
 ###Here's a few example heatmaps and their corresponding bounding boxes:
 
+![alt text][image1]
+![alt text][image4]
 ![alt text][image5]
+![alt text][image2]
 ![alt text][image6]
 ![alt text][image7]
+![alt text][image3]
 ![alt text][image8]
-
+![alt text][image9]
 
 
 ---
