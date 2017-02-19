@@ -75,7 +75,7 @@ I chose to bound my search so that it started 300 pixels from the top of the ima
 
 As discussed before, I ended up with a linear SVM utilizing a color histogram and 3 channel YCrCb HOG to build the feature vecotr. I relied on the ability of the classifier to find multiple hits on a vehicle and relied heavily on the heat map as a filter to identify the final shape. I think my classifier could be improved by fine tuning the classifier to better identify a vehicle and reducing my reliance on the heat map. 
 
-Here are some examples:
+###Here are some examples:
 
 ![alt text][image1]
 ![alt text][image2]
@@ -86,24 +86,28 @@ Here are some examples:
 ### Video Implementation
 
 ####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./project_video.mp4). The video pipeline function, "process_image", can be found in (cell 13)
 
 
 ####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
+I used heatmaps to filter out false positives and combine overlapping bounding boxes. See the bottom of the video pipeline, ("process_image", cell 13) along with the functions "add_heat" (cell 10), "apply_threshold" (cell 11) and draw_labeled_bboxes (cell 12) for the impelementation. 
 
+The first step is to create a heatmap from the boxes identifeid in the sliding windows search. The heatmap is created by adding (1) to the location of each pixel for each box that overlaps with it.
+
+Next, I apply a threshold to the heatmap to reduce false positives. Any pixel in the heatmap which has a value below the threshold will be set to zero. I found a threshold of (3) to work well for my classifier.
+
+Finally, I draw a bounding bow around the extent of each blob that remains in the heatmap. If all goes well, these boxes will match the vehicles in the frame.
+
+###Here's a few example heatmaps and their corresponding bounding boxes:
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
 
 ### Here are six frames and their corresponding heatmaps:
 
 ![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
 ![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
 ![alt text][image7]
+![alt text][image8]
 
 
 
@@ -113,14 +117,14 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-To be completely honest, I think there is lots of room for improvement in this project. In the interest of time, I wasn't able to explore the different classifiers presented in the lecture as much as I would have liked to. My pipeline does a solid job of identifying large vehicles, but also has too many false positives in shadows and trees. In addition, I think I could improve performance by expanding my training dataset.
+To be completely honest, I think there is lots of room for improvement in this project. I wasn't able to explore the different classifiers presented in the lecture as much as I would have liked to. My pipeline does a solid job of identifying large vehicles, but also has too many false positives in shadows and trees. I think I could improve performance by further exploring the tools presented in the lectures and taking a second look at how I select the training data.
 
-First, I would like to do a deeper study of the classifiers and parameters. I think my classifier has too many false positives and relies too heavily on post processing to narrow down the results.
+First, I would like to do a deeper study of the classifiers and parameters. I think that I would be able to reduce the number of false positives by spending more time investigating the different classifiers and how the HOG and color histogram parameters affect the training results.
 
 Second, I would like to modify my sliding window search. I can adjust the search space to reflect the fact that the road narrows at the horizion, and can scale the size of the sliding window to match the perceived size of the vehicles as they approach the horizion. This should help reduce false positives and improve execution time.
 
-Finally, as mentioned earlier I would like to reduce the influence of the heat map in the algorith,
+Finally, as mentioned earlier I would like to reduce the influence of the heat map in the algorithm. I can more comfortably do this once I have a stronger classifier.
 
-Once all of these steps are complete, I would also like to explore using other methods to classify the images.
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+Beyond that, I think that more training data would improve the robustness of the pipeline. I noticed that the classifier particularly struggles with white cars, perhaps there are certain vehicle characteristics that are underrepresented by the training data provided.
+
 
