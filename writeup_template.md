@@ -59,11 +59,11 @@ The final feature vector was created by appending the HOG and color histogram fe
 
 ####2. Explain how you settled on your final choice of HOG and color histogram parameters.
 
-I settled on my final choice for HOG and color histogram parameters via experimentation (brute force...). In order to do this I would define a set of parameters, train my linear SVM, note the test accuracy and visually inspect the result on a test image, and repeat. Since the end result of this project relies on a heat map to aggregate multiple detections, I felt that a visual inspection of a test image was a better way to judge accuracy than the test accuracy. However, the test accuracy acts as a good guideline.
+I settled on my final choice for HOG and color histogram parameters via experimentation (brute force...). In order to do this I would define a set of parameters, train my linear SVM, note the test accuracy and visually inspect the result on a test image, and repeat. Since the end result of this project relies on a heat map to aggregate multiple detections, I felt that a visual inspection of a test image was a better way to judge accuracy than the test accuracy. However, the test accuracy does provide good guidance in general.
 
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG and color histogramfeatures.
 
-The code block that I used to train my linear SVM is in (cell 14) of the IPython notebook. I began by loading the vehicle and non-vehicel images provided and running them through my "extract_features" function (cell 5) to create a feature vector for each image. I then scaled the images to prevent one portion of the feature (HOG or color histogram) from overpowering the other when classifying. Next, I split the data into 90% training and 10% test data. I chose to use a larger portion of the dataset for training because the ultimate goal of the project is to generate a heat map based upon multiple detections, which I felt was better represented by visual inspection than through test data scores. I then finally trained my classifier. I experimented with nonlinear and linear SVMs and like the accuracy/performance of the linear SVM the most.
+The code block that I used to train my linear SVM is in (cell 14) of the IPython notebook. I began by loading the vehicle and non-vehicel images provided and running them through my "extract_features" function (cell 5) to create a feature vector for each image. I then used sklearn.preprocessing.StandardScalar() to scale the images to a zero mean and unit variance to prevent one portion of the feature (HOG or color histogram) from overpowering the other when classifying. Next, I split the data into 90% training and 10% test data. I chose to use a larger portion of the dataset for training because the ultimate goal of the project is to generate a heat map based upon multiple detections, which I felt was better represented by visual inspection than through test data scores. I then finally trained my classifier. I experimented with nonlinear and linear SVMs and like the accuracy/performance of the linear SVM the most.
 
 ###Sliding Window Search
 
@@ -75,7 +75,7 @@ I chose to bound my search so that it started 300 pixels from the top of the ima
 
 ####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-As discussed before, I ended up with a linear SVM utilizing a color histogram and 3 channel YCrCb HOG to build the feature vecotr. I relied on the ability of the classifier to find multiple hits on a vehicle and relied heavily on the heat map as a filter to identify the final shape. I think my classifier could be improved by fine tuning the classifier to better identify a vehicle and reducing my reliance on the heat map. 
+As discussed before, I ended up with a linear SVM utilizing a color histogram and 3 channel YCrCb HOG to build the feature vecotr. I relied on the ability of the classifier to find multiple hits on a vehicle and relied heavily on the heat map as a filter to identify the final shape. I think my classifier could be improved by modifying the HOG and color histogram parameters to define a more distinct feature vector and by investigating the use of other classifiers. This would also allow me to reduce my reliance on the heat map. I also think more training data would improve classifier accuracy.
 
 ###Here are some examples:
 
@@ -87,7 +87,7 @@ As discussed before, I ended up with a linear SVM utilizing a color histogram an
 ### Video Implementation
 
 ####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4). The video pipeline function, "process_image", can be found in (cell 13)
+Here's a [link to my video result](./output_images/project_video_labeled.mp4). The video pipeline function, "process_image", can be found in (cell 13)
 
 
 ####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
