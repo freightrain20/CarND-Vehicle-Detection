@@ -32,15 +32,17 @@ The goals / steps of this project are the following:
 
 ####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-I extracted HOG features from the training images using the function "get_hog_features" in the IPython notebook. I found that the parameters in the table below did a reasonable job of correctly classifying features when combined with a color histogram. 
+I extracted HOG features from the training images using the function "get_hog_features" in the IPython notebook (2nd cell). This function is called via the "extract_features" when training a classifier and the "search_windows" function when classifying a candidate image.  I found that the parameters in the table below did a reasonable job of correctly classifying features when combined with a color histogram. 
 
-| Parameter | Value |
-|-----------|-------|
-|orientation|9      |
-|pixels per cel|8   |
-|cells per block|2
+| Parameter     | Value |
+|---------------|-------|
+|orientation    |9      |
+|pixels per cel |8      |
+|cells per block|2      |
+|color space    |YCrCb  |
+|color channels |All    |
 
-The orientation parameter defines the number of bins that the orientation gradient can be split in to. For example, with 9 orientations each bin will represent a 40&deg range.
+The orientation parameter defines the number of bins that the orientation gradient can be split in to. For example, with 9 orientations each bin will represent a 40&deg; range. The pixels per cell parameter defines the size of the cell, which in my case is 8 x 8. The cells per block parameter defines the number of cells over which a value will be averaged, which is essentially a filter to smooth the result. I chose to average over a 2 x 2 block of cells. This is done using the YCrCb color space on each channel within the image.
 
 The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
 
